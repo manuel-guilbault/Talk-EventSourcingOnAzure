@@ -1,0 +1,8 @@
+.vs
+bin
+obj
+*.csproj.user
+*.ncrunchsolution.user
+*.sln.DotSettings.user
+local.settings.json
+appsettings.json
