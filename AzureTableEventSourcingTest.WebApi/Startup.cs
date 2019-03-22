@@ -1,9 +1,11 @@
 ﻿using AzureTableEventSourcingTest.Domain;
 using AzureTableEventSourcingTest.Domain.Flights;
 using AzureTableEventSourcingTest.Domain.Flights.Commands;
+using AzureTableEventSourcingTest.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -11,6 +13,7 @@ using Newtonsoft.Json.Serialization;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace AzureTableEventSourcingTest.WebApi
 {
@@ -26,7 +29,7 @@ namespace AzureTableEventSourcingTest.WebApi
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(options =>
 			{
 				options.SwaggerDoc("v1", new Info
 				{
@@ -51,10 +54,13 @@ namespace AzureTableEventSourcingTest.WebApi
 				options.SerializerSettings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 			});
 
-			services
+            services
 				.AddTransient<ICommandHandler<CreateFlight.Command, CreateFlight.Result>, CreateFlight>()
 				.AddTransient<ICommandHandler<AllotFlightSeats.Command, AllotFlightSeats.Result>, AllotFlightSeats>()
-				.AddTransient<ICommandHandler<BookFlightSeats.Command, BookFlightSeats.Result>, BookFlightSeats>();
+				.AddTransient<ICommandHandler<BookFlightSeats.Command, BookFlightSeats.Result>, BookFlightSeats>()
+                .AddTransient(_ => new DocumentClient(new Uri(Configuration["Azure:CosmosDb:AccountEndpoint"]), Configuration["Azure:CosmosDb:AccountKey"]))
+                .AddSingleton(new CosmosDbEventStoreSettings("default"))
+				.AddCosmosDbEventStore<FlightId, Flight>();
 		}
 		
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

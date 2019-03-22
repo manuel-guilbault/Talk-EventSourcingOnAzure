@@ -6,3 +6,4 @@ obj
 *.sln.DotSettings.user
 local.settings.json
 appsettings.json
+local.settings.json

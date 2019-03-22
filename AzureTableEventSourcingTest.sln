@@ -7,14 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableEventSourcingTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableEventSourcingTest.Infrastructure", "AzureTableEventSourcingTest.Infrastructure\AzureTableEventSourcingTest.Infrastructure.csproj", "{9B3E733D-1587-4C14-B06E-18DDF518A1C1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableEventSourcingTest.EventConsumers.AzureFunctions", "AzureTableEventSourcingTest.EventConsumers.AzureFunctions\AzureTableEventSourcingTest.EventConsumers.AzureFunctions.csproj", "{23B541BA-3A71-416F-8DCC-6224A7B8E15B}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableEventSourcingTest.WebApi", "AzureTableEventSourcingTest.WebApi\AzureTableEventSourcingTest.WebApi.csproj", "{D31C01CD-5F6A-4744-93AB-02F777A398B5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{60958333-AE51-432D-81A9-CF8A617DFD53}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{26FFC3DD-8C90-4A97-80AC-1615716443D1}"
 	ProjectSection(SolutionItems) = preProject
 		Deployment\azuredeploy.json = Deployment\azuredeploy.json
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableEventSourcingTest.EventConsumers.AzureFunctions", "AzureTableEventSourcingTest.EventConsumers.AzureFunctions\AzureTableEventSourcingTest.EventConsumers.AzureFunctions.csproj", "{9C88EFC1-82A2-4270-A7B3-56325661790E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,14 +30,14 @@ Global
 		{9B3E733D-1587-4C14-B06E-18DDF518A1C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B3E733D-1587-4C14-B06E-18DDF518A1C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B3E733D-1587-4C14-B06E-18DDF518A1C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23B541BA-3A71-416F-8DCC-6224A7B8E15B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23B541BA-3A71-416F-8DCC-6224A7B8E15B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23B541BA-3A71-416F-8DCC-6224A7B8E15B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23B541BA-3A71-416F-8DCC-6224A7B8E15B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D31C01CD-5F6A-4744-93AB-02F777A398B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D31C01CD-5F6A-4744-93AB-02F777A398B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D31C01CD-5F6A-4744-93AB-02F777A398B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D31C01CD-5F6A-4744-93AB-02F777A398B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C88EFC1-82A2-4270-A7B3-56325661790E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C88EFC1-82A2-4270-A7B3-56325661790E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C88EFC1-82A2-4270-A7B3-56325661790E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C88EFC1-82A2-4270-A7B3-56325661790E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using AzureTableEventSourcingTest.Infrastructure;
+﻿using AzureTableEventSourcingTest.Domain;
+using AzureTableEventSourcingTest.Infrastructure;
 using AzureTableEventSourcingTest.WebApi.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -10,12 +11,19 @@ namespace Microsoft.AspNetCore.Builder
     public static class Extensions
     {
         public static IServiceCollection AddInitializable<TService>(this IServiceCollection services)
-            where TService : IInitializable
+            where TService: IInitializable
         {
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IBeforeApplicationStart, BeforeApplicationStartInitializableAdapter>(sp
-                => new BeforeApplicationStartInitializableAdapter(sp.GetRequiredService<TService>())));
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IBeforeApplicationStart, InitializeBeforeApplicationStart>(sp 
+                => new InitializeBeforeApplicationStart(sp.GetRequiredService<TService>())));
             return services;
         }
+
+        public static IServiceCollection AddCosmosDbEventStore<TId, TAggregateRoot>(this IServiceCollection services)
+            where TAggregateRoot : IAggregateRoot<TId> 
+            => services
+                .AddTransient<CosmosDbEventStore<TId, TAggregateRoot>>()
+                .AddTransient<IEventStore<TId, TAggregateRoot>>(sp => sp.GetRequiredService<CosmosDbEventStore<TId, TAggregateRoot>>())
+                .AddInitializable<CosmosDbEventStore<TId, TAggregateRoot>>();
     }
 }
 

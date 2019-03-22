@@ -2,52 +2,48 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "namespaces_esonazuretalk_name": {
-      "defaultValue": "esonazuretalk",
-      "type": "String"
+    "databaseAccounts_esonazure_name": {
+      "defaultValue": "esonazure",
+      "type": "string"
     },
     "storageAccounts_esonazuretalk_name": {
       "defaultValue": "esonazuretalk",
-      "type": "String"
-    },
-    "queues_events_name": {
-      "defaultValue": "events",
-      "type": "String"
-    },
-    "AuthorizationRules_consumer_name": {
-      "defaultValue": "consumer",
-      "type": "String"
-    },
-    "AuthorizationRules_publisher_name": {
-      "defaultValue": "publisher",
-      "type": "String"
-    },
-    "AuthorizationRules_RootManageSharedAccessKey_name": {
-      "defaultValue": "RootManageSharedAccessKey",
-      "type": "String"
+      "type": "string"
     }
   },
   "variables": {},
   "resources": [
     {
-      "comments": "Generalized from resource: '/subscriptions/8a22d1e5-bf7f-433a-bfa2-a480209f6bc5/resourceGroups/event-sourcing-on-azure-talk/providers/Microsoft.ServiceBus/namespaces/esonazuretalk'.",
-      "type": "Microsoft.ServiceBus/namespaces",
-      "sku": {
-        "name": "Basic",
-        "tier": "Basic"
-      },
-      "name": "[parameters('namespaces_esonazuretalk_name')]",
-      "apiVersion": "2017-04-01",
+      "comments": "Generalized from resource: '/subscriptions/8a22d1e5-bf7f-433a-bfa2-a480209f6bc5/resourceGroups/event-sourcing-on-azure-talk/providers/Microsoft.DocumentDB/databaseAccounts/esonazure'.",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "kind": "GlobalDocumentDB",
+      "name": "[parameters('databaseAccounts_esonazure_name')]",
+      "apiVersion": "2015-04-08",
       "location": "West Europe",
-      "tags": {},
+      "tags": {
+        "defaultExperience": "Core (SQL)"
+      },
       "scale": null,
       "properties": {
-        "provisioningState": "Succeeded",
-        "metricId": "[concat('8a22d1e5-bf7f-433a-bfa2-a480209f6bc5:', parameters('namespaces_esonazuretalk_name'))]",
-        "createdAt": "2019-03-01T11:01:28.52Z",
-        "updatedAt": "2019-03-01T11:01:54.467Z",
-        "serviceBusEndpoint": "[concat('https://', parameters('namespaces_esonazuretalk_name'),'.servicebus.windows.net:443/')]",
-        "status": "Active"
+        "ipRangeFilter": "",
+        "enableAutomaticFailover": false,
+        "enableMultipleWriteLocations": false,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "databaseAccountOfferType": "Standard",
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session",
+          "maxIntervalInSeconds": 5,
+          "maxStalenessPrefix": 100
+        },
+        "locations": [
+          {
+            "locationName": "West Europe",
+            "provisioningState": "Succeeded",
+            "failoverPriority": 0
+          }
+        ],
+        "capabilities": []
       },
       "dependsOn": []
     },
@@ -86,69 +82,6 @@
         "accessTier": "Hot"
       },
       "dependsOn": []
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/8a22d1e5-bf7f-433a-bfa2-a480209f6bc5/resourcegroups/event-sourcing-on-azure-talk/providers/Microsoft.ServiceBus/namespaces/esonazuretalk/AuthorizationRules/RootManageSharedAccessKey'.",
-      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
-      "name": "[concat(parameters('namespaces_esonazuretalk_name'), '/', parameters('AuthorizationRules_RootManageSharedAccessKey_name'))]",
-      "apiVersion": "2017-04-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "rights": [
-          "Listen",
-          "Manage",
-          "Send"
-        ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_esonazuretalk_name'))]"
-      ]
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/8a22d1e5-bf7f-433a-bfa2-a480209f6bc5/resourcegroups/event-sourcing-on-azure-talk/providers/Microsoft.ServiceBus/namespaces/esonazuretalk/AuthorizationRules/consumer'.",
-      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
-      "name": "[concat(parameters('namespaces_esonazuretalk_name'), '/', parameters('AuthorizationRules_consumer_name'))]",
-      "apiVersion": "2017-04-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "rights": [
-          "Listen"
-        ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_esonazuretalk_name'))]"
-      ]
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/8a22d1e5-bf7f-433a-bfa2-a480209f6bc5/resourcegroups/event-sourcing-on-azure-talk/providers/Microsoft.ServiceBus/namespaces/esonazuretalk/AuthorizationRules/publisher'.",
-      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
-      "name": "[concat(parameters('namespaces_esonazuretalk_name'), '/', parameters('AuthorizationRules_publisher_name'))]",
-      "apiVersion": "2017-04-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "rights": [
-          "Send"
-        ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_esonazuretalk_name'))]"
-      ]
-    },
-    {
-      "comments": "Generalized from resource: '/subscriptions/8a22d1e5-bf7f-433a-bfa2-a480209f6bc5/resourcegroups/event-sourcing-on-azure-talk/providers/Microsoft.ServiceBus/namespaces/esonazuretalk/queues/events'.",
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "name": "[concat(parameters('namespaces_esonazuretalk_name'), '/', parameters('queues_events_name'))]",
-      "apiVersion": "2017-04-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_esonazuretalk_name'))]"
-      ]
     }
   ]
 }
