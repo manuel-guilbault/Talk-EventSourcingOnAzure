@@ -1,9 +1,12 @@
 ﻿using AzureTableEventSourcingTest.Domain;
 using AzureTableEventSourcingTest.Domain.Flights;
 using AzureTableEventSourcingTest.Domain.Flights.Commands;
+using AzureTableEventSourcingTest.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Azure.ServiceBus.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -11,10 +14,11 @@ using Newtonsoft.Json.Serialization;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace AzureTableEventSourcingTest.WebApi
 {
-    public class Startup
+	public class Startup
 	{
 		public Startup(IConfiguration configuration)
 		{
@@ -54,7 +58,13 @@ namespace AzureTableEventSourcingTest.WebApi
 			services
 				.AddTransient<ICommandHandler<CreateFlight.Command, CreateFlight.Result>, CreateFlight>()
 				.AddTransient<ICommandHandler<AllotFlightSeats.Command, AllotFlightSeats.Result>, AllotFlightSeats>()
-				.AddTransient<ICommandHandler<BookFlightSeats.Command, BookFlightSeats.Result>, BookFlightSeats>();
+				.AddTransient<ICommandHandler<BookFlightSeats.Command, BookFlightSeats.Result>, BookFlightSeats>()
+				.AddTransient(_ => CloudStorageAccount
+					.Parse(Configuration["Azure:Storage:ConnectionString"])
+					.CreateCloudTableClient())
+				.AddAzureTableEventStore<FlightId, Flight>()
+                .AddTransient(_ => new MessageSender(Configuration["Azure:ServiceBus:ConnectionString"], "events"))
+                .AddTransient<IEventPublisher, AzureServiceBusEventPublisher>();
 		}
 		
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
