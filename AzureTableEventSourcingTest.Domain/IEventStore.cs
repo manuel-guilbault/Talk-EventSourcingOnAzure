@@ -8,8 +8,8 @@ namespace AzureTableEventSourcingTest.Domain
 		where TAggregateRoot: IAggregateRoot<TId>
 	{
 		Task CreateStreamAsync(TId aggregateRootId, IEnumerable<IEvent> events);
-		Task<(VersionTag version, IEnumerable<IEvent> events)> ReadStreamAsync(TId aggregateRootId);
-		Task AppendToStreamAsync(TId aggregateRootId, VersionTag version, IEnumerable<IEvent> events);
+		Task<(VersionNumber, IEnumerable<IEvent>)> ReadStreamAsync(TId aggregateRootId);
+		Task AppendToStreamAsync(TId aggregateRootId, VersionNumber versionNumber, IEnumerable<IEvent> events);
 	}
 	
 	public static class EventStoreExtensions
@@ -21,10 +21,10 @@ namespace AzureTableEventSourcingTest.Domain
 			Func<TAggregateRoot, IEnumerable<IEvent>> mutate)
 			where TAggregateRoot: IAggregateRoot<TId>
 		{
-			var (version, pastEvents) = await store.ReadStreamAsync(id);
+			var (versionNumber, pastEvents) = await store.ReadStreamAsync(id);
 			var aggregateRoot = hydrate(pastEvents);
 			var newEvents = mutate(aggregateRoot);
-			await store.AppendToStreamAsync(id, version, newEvents);
+			await store.AppendToStreamAsync(id, versionNumber, newEvents);
 		}
 	}
 }
