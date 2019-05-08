@@ -3,6 +3,8 @@
 This is a sample project showing how to use various Azure PaaS services as event store for CQRS & event sourced applications.
 Two different event store implementations are illustrated, each on its own branch.
 
+> The code samples may seem weird, with only write operations and no read operations. This is because they implement no queries and no read models, but only a couple of commands, in order to keep the focus on illustrating the retrieval and storage of events.
+
 ## With Table Storage
 
 The `table-storage` branch shows an event store implementation which uses a table of an Azure Table Storage account to store events.
